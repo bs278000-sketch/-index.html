@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#2563eb">
+<title>إنجاز | منظّم الأسبوع</title>
+<style>
+:root{--bg:#f4f7fb;--card:#fff;--text:#172033;--muted:#68758b;--line:#e3e9f2;--primary:#2563eb;--secondary:#7c3aed;--green:#16a34a;--red:#dc2626;--shadow:0 8px 26px rgba(20,40,80,.08)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Tahoma,Arial,sans-serif;line-height:1.5}
+body.dark{--bg:#101827;--card:#192438;--text:#edf3ff;--muted:#aab7cc;--line:#2b3950;--primary:#6090ff;--secondary:#b49aff;--shadow:0 8px 26px rgba(0,0,0,.18)}
+header{background:linear-gradient(135deg,#2563eb,#7c3aed);color:white;padding:24px 18px 28px;border-radius:0 0 26px 26px}
+.top{max-width:850px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:12px}.brand{font-size:25px;font-weight:800}.subtitle{opacity:.9;font-size:14px;margin-top:3px}.iconbtn{border:1px solid #ffffff66;background:#ffffff1a;color:white;border-radius:12px;padding:10px 12px;font-size:18px;cursor:pointer}
+main{max-width:850px;margin:-12px auto 40px;padding:0 14px}.summary{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}.stat,.panel{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow)}.stat{padding:14px 12px}.stat small{color:var(--muted);display:block;font-size:12px}.stat strong{display:block;font-size:24px;margin-top:4px}
+.progress-wrap{height:8px;background:var(--line);border-radius:99px;overflow:hidden;margin-top:10px}.progress{height:100%;background:linear-gradient(90deg,var(--primary),var(--secondary));width:0%;transition:width .2s}
+.panel{padding:16px;margin-bottom:14px}.section-title{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:0 0 12px;font-size:17px}
+.days{display:grid;grid-template-columns:repeat(7,minmax(72px,1fr));gap:7px;overflow-x:auto;padding-bottom:4px}.day{border:1px solid var(--line);border-radius:13px;background:var(--card);color:var(--text);padding:10px 5px;cursor:pointer;text-align:center;min-width:72px}.day .dayname{font-weight:700;font-size:13px}.day .date{font-size:11px;color:var(--muted);margin-top:3px}.day.active{background:var(--primary);color:#fff;border-color:var(--primary)}.day.active .date{color:#eaf0ff}.day .count{font-size:11px;margin-top:5px;opacity:.85}
+.controls{display:flex;gap:8px;flex-wrap:wrap}.btn{border:0;border-radius:12px;padding:11px 14px;background:var(--primary);color:white;font:inherit;font-weight:700;cursor:pointer}.btn.secondary{background:var(--secondary)}.btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line)}.btn.danger{background:var(--red)}.field{width:100%;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--bg);color:var(--text);font:inherit;outline:none}.field:focus{border-color:var(--primary)}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.formgrid .wide{grid-column:1/-1}.label{display:block;font-size:13px;color:var(--muted);margin:0 0 5px}
+.tasklist{display:grid;gap:9px}.task{display:flex;align-items:flex-start;gap:10px;padding:12px;border:1px solid var(--line);border-radius:14px;background:var(--card)}.task input[type=checkbox]{width:21px;height:21px;accent-color:var(--green);margin-top:2px;flex-shrink:0}.taskcontent{flex:1;min-width:0}.tasktitle{font-weight:700;overflow-wrap:anywhere}.task.done .tasktitle{text-decoration:line-through;color:var(--muted)}.taskmeta{font-size:12px;color:var(--muted);margin-top:4px;display:flex;gap:8px;flex-wrap:wrap}.taskactions{display:flex;gap:5px}.mini{border:1px solid var(--line);background:transparent;color:var(--text);border-radius:9px;padding:5px 8px;cursor:pointer}.empty{text-align:center;padding:24px 8px;color:var(--muted)}.empty .emoji{font-size:30px;margin-bottom:5px}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:0 15px 25px}
+dialog{border:1px solid var(--line);border-radius:20px;padding:0;width:min(520px,calc(100% - 24px));background:var(--card);color:var(--text);box-shadow:0 20px 70px #0004}dialog::backdrop{background:#0b1220aa}.modalhead{padding:17px 18px;border-bottom:1px solid var(--line);font-weight:800;font-size:18px}.modalbody{padding:18px}.modalfoot{display:flex;gap:8px;justify-content:flex-start;padding:0 18px 18px}
+
+.planner-scroll{overflow:auto;max-height:66vh;border:1px solid var(--line);border-radius:14px}
+.planner{width:100%;min-width:690px;border-collapse:separate;border-spacing:0;table-layout:fixed;background:var(--card)}
+.planner th,.planner td{border-left:1px solid var(--line);border-bottom:1px solid var(--line);text-align:center;padding:0;position:relative}
+.planner thead th{position:sticky;top:0;z-index:4;background:var(--card);height:48px;font-size:12px}
+.planner .timehead{position:sticky;right:0;z-index:5;width:74px;min-width:74px;background:var(--card)}
+.planner .timecell{position:sticky;right:0;z-index:2;width:74px;background:var(--bg);font-size:11px;color:var(--muted);height:38px;padding:4px}
+.planner td.slot{height:38px;min-width:82px;cursor:pointer;background:var(--card)}
+.planner td.slot:hover{background:color-mix(in srgb,var(--primary) 9%,var(--card))}
+.planner td.slot .block{position:absolute;inset:2px 3px;border-radius:7px;padding:4px 3px;color:white;font-size:11px;line-height:1.25;overflow:hidden;z-index:1;text-align:center;display:flex;flex-direction:column;justify-content:center;gap:2px}
+.planner td.slot .block strong{font-size:11px}
+.legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px;color:var(--muted);font-size:12px}.legend span{display:flex;align-items:center;gap:5px}.legend i{width:9px;height:9px;border-radius:50%;display:inline-block}
+.daychecks{display:flex;flex-wrap:wrap;gap:8px}.daychecks label{display:flex;gap:5px;align-items:center;border:1px solid var(--line);padding:7px 9px;border-radius:10px;font-size:13px}.daychecks input{accent-color:var(--primary)}
+@media(max-width:520px){.summary{gap:7px}.stat{padding:11px 9px}.stat strong{font-size:21px}.formgrid{grid-template-columns:1fr}.formgrid .wide{grid-column:auto}.panel{padding:13px}.brand{font-size:23px}}
+</style>
+</head>
+<body>
+<header><div class="top"><div><div class="brand">✅ إنجاز</div><div class="subtitle">خطّط أسبوعك، وتابع تقدّمك خطوة بخطوة</div></div><button class="iconbtn" id="themeBtn" aria-label="تغيير المظهر">🌙</button></div></header>
+<main>
+  <section class="summary" aria-label="ملخص الإنجاز">
+    <div class="stat"><small>مهام هذا الأسبوع</small><strong id="totalStat">0</strong></div>
+    <div class="stat"><small>المهام المنجزة</small><strong id="doneStat">0</strong></div>
+    <div class="stat"><small>نسبة الإنجاز</small><strong id="percentStat">0%</strong><div class="progress-wrap"><div class="progress" id="weekProgress"></div></div></div>
+  </section>
+  <section class="panel">
+    <h2 class="section-title"><span>🗓️ مخطط الأسبوع بالوقت</span><div class="controls"><button class="btn ghost" id="todayBtn">هذا الأسبوع</button><button class="btn secondary" id="createScheduleBtn">＋ إضافة نشاط متكرر</button></div></h2>
+    <p style="color:var(--muted);font-size:13px;margin-top:-4px">اختر وقت البداية والنهاية لكل نشاط، وحدد الأيام التي يتكرر فيها. يظهر الوقت على اليمين والأيام في الأعلى.</p>
+    <div class="planner-scroll"><table class="planner" id="planner"><thead id="plannerHead"></thead><tbody id="plannerBody"></tbody></table></div>
+    <div class="legend"><span><i style="background:#2563eb"></i> دراسة / مدرسة</span><span><i style="background:#16a34a"></i> عمل / دوام</span><span><i style="background:#7c3aed"></i> عبادة</span><span><i style="background:#ea580c"></i> راحة / نوم</span><span><i style="background:#0891b2"></i> نشاط آخر</span></div>
+  </section>
+  <section class="panel">
+    <h2 class="section-title"><span>📋 الأنشطة المجدولة</span><button class="btn" id="addBtn">＋ إضافة نشاط</button></h2>
+    <div class="tasklist" id="taskList"></div>
+  </section>
+  <section class="panel">
+    <h2 class="section-title">🎯 أدواتك</h2>
+    <div class="controls">
+      <button class="btn secondary" id="exportBtn">نسخ احتياطي للمهام</button>
+      <button class="btn ghost" id="importBtn">استعادة نسخة</button>
+      <button class="btn ghost" id="reminderBtn">🔔 تفعيل التذكيرات</button>
+      <input type="file" id="importFile" accept="application/json,.json" hidden>
+    </div>
+    <p style="color:var(--muted);font-size:12px;margin:12px 0 0">تُحفظ المهام على هذا الجهاز تلقائيًا. النسخ الاحتياطي مفيد عند تغيير المتصفح أو الهاتف.</p>
+  </section>
+</main>
+<footer>إنجاز — نسخة أولية مجانية تعمل من المتصفح وتحفظ بياناتك على جهازك.</footer>
+
+<dialog id="scheduleDialog">
+  <form id="scheduleForm">
+    <div class="modalhead" id="scheduleModalTitle">إضافة نشاط متكرر</div>
+    <div class="modalbody">
+      <div class="formgrid">
+        <div class="wide"><label class="label" for="scheduleName">اسم النشاط *</label><input class="field" id="scheduleName" maxlength="80" required placeholder="مثال: المدرسة"></div>
+        <div><label class="label" for="activityCategory">نوع النشاط</label><select class="field" id="activityCategory"><option value="study">دراسة / مدرسة</option><option value="work">عمل / دوام</option><option value="worship">عبادة</option><option value="rest">راحة / نوم</option><option value="other">نشاط آخر</option></select></div>
+        <div><label class="label" for="startTime">من الساعة</label><input class="field" id="startTime" type="time" value="08:00" required></div>
+        <div><label class="label" for="endTime">إلى الساعة</label><input class="field" id="endTime" type="time" value="14:00" required></div>
+        <div class="wide"><label class="label">الأيام التي يتكرر فيها النشاط</label><div class="daychecks" id="repeatDays"></div></div>
+        <div class="wide"><label class="label" for="activityNote">ملاحظات (اختياري)</label><textarea class="field" id="activityNote" rows="2" maxlength="300" placeholder="تفاصيل النشاط"></textarea></div>
+      </div>
+      <p style="color:var(--muted);font-size:12px;margin-bottom:0">يمكنك تحديد عدة أيام مرة واحدة. مثال: المدرسة من 08:00 إلى 14:00 يوم الأحد والإثنين والثلاثاء والأربعاء والخميس.</p>
+    </div>
+    <div class="modalfoot"><button class="btn secondary" type="submit">حفظ النشاط</button><button class="btn ghost" type="button" id="cancelScheduleBtn">إلغاء</button></div>
+  </form>
+</dialog>
+<dialog id="taskDialog">
+  <form id="taskForm">
+    <div class="modalhead" id="modalTitle">إضافة مهمة</div>
+    <div class="modalbody">
+      <div class="formgrid">
+        <div class="wide"><label class="label" for="taskTitle">اسم المهمة *</label><input class="field" id="taskTitle" maxlength="120" required placeholder="مثال: مراجعة المحاضرة"></div>
+        <div><label class="label" for="taskDay">اليوم</label><select class="field" id="taskDay"></select></div>
+        <div><label class="label" for="taskTime">الوقت (اختياري)</label><input class="field" id="taskTime" type="time"></div>
+        <div class="wide"><label class="label" for="taskNote">ملاحظات (اختياري)</label><textarea class="field" id="taskNote" rows="2" maxlength="300" placeholder="تفاصيل أو تذكير لنفسك"></textarea></div>
+      </div>
+    </div>
+    <div class="modalfoot"><button class="btn" type="submit">حفظ المهمة</button><button class="btn ghost" type="button" id="cancelBtn">إلغاء</button></div>
+  </form>
+</dialog>
+<script>
+const DAY_NAMES=['السبت','الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة'];
+const KEY='injaz_planner_activities_v2', THEME='injaz_theme_v1';
+let activities=[], editingId=null;
+const $=id=>document.getElementById(id);
+const colors={study:'#2563eb',work:'#16a34a',worship:'#7c3aed',rest:'#ea580c',other:'#0891b2'};
+const labels={study:'دراسة / مدرسة',work:'عمل / دوام',worship:'عبادة',rest:'راحة / نوم',other:'نشاط آخر'};
+function load(){try{activities=JSON.parse(localStorage.getItem(KEY)||'[]');if(!Array.isArray(activities))activities=[];}catch{activities=[];}}
+function save(){localStorage.setItem(KEY,JSON.stringify(activities));render();}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function mins(t){const [h,m]=t.split(':').map(Number);return h*60+m;}
+function fmt(m){return String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0');}
+function overlaps(a,b){return a.days.some(d=>b.days.includes(d)) && mins(a.start)<mins(b.end) && mins(b.start)<mins(a.end);}
+function renderPlanner(){
+ $('plannerHead').innerHTML='<tr><th class="timehead">الوقت</th>'+DAY_NAMES.map(d=>`<th>${d}</th>`).join('')+'</tr>';
+ let rows='';
+ for(let m=0;m<1440;m+=60){
+   rows+=`<tr><th class="timecell">${fmt(m)}</th>`;
+   for(let day=0;day<7;day++){
+     const matching=activities.filter(a=>a.days.includes(day)&&mins(a.start)<m+60&&mins(a.end)>m);
+     rows+=`<td class="slot" data-day="${day}" data-time="${fmt(m)}">`;
+     for(const a of matching){
+       if(mins(a.start)>=m && mins(a.start)<m+60){
+         const duration=mins(a.end)-mins(a.start);
+         const top=(mins(a.start)-m)/60*38;
+         const height=Math.max(22,duration/60*38);
+         rows+=`<div class="block" data-activity="${a.id}" style="background:${colors[a.category]||colors.other};top:${top}px;height:${height}px"><strong>${esc(a.name)}</strong><span>${esc(a.start)}–${esc(a.end)}</span></div>`;
+       }
+     }
+     rows+='</td>';
+   }
+   rows+='</tr>';
+ }
+ $('plannerBody').innerHTML=rows;
+ $('plannerBody').querySelectorAll('[data-activity]').forEach(el=>el.addEventListener('click',e=>{e.stopPropagation();openActivity(el.dataset.activity);}));
+ $('plannerBody').querySelectorAll('td.slot').forEach(el=>el.addEventListener('click',()=>{openActivity(null,Number(el.dataset.day),el.dataset.time);}));
+}
+function renderTasks(){
+ const list=[...activities].sort((a,b)=>a.start.localeCompare(b.start));
+ if(!list.length){$('taskList').innerHTML='<div class="empty"><div class="emoji">🗓️</div><div>لم تضف أنشطة بعد.</div><div style="font-size:13px;margin-top:4px">اضغط «إضافة نشاط متكرر» وحدد الوقت والأيام.</div></div>';return;}
+ $('taskList').innerHTML=list.map(a=>`<div class="task"><div style="width:9px;min-width:9px;height:40px;border-radius:8px;background:${colors[a.category]||colors.other}"></div><div class="taskcontent"><div class="tasktitle">${esc(a.name)}</div><div class="taskmeta"><span>🕒 ${esc(a.start)}–${esc(a.end)}</span><span>📅 ${a.days.map(d=>DAY_NAMES[d]).join('، ')}</span><span>${esc(labels[a.category]||labels.other)}</span>${a.note?`<span>📝 ${esc(a.note)}</span>`:''}</div></div><div class="taskactions"><button class="mini" data-edit="${a.id}" aria-label="تعديل">✏️</button><button class="mini" data-delete="${a.id}" aria-label="حذف">🗑️</button></div></div>`).join('');
+ $('taskList').querySelectorAll('[data-edit]').forEach(el=>el.addEventListener('click',()=>openActivity(el.dataset.edit)));
+ $('taskList').querySelectorAll('[data-delete]').forEach(el=>el.addEventListener('click',()=>{if(confirm('حذف هذا النشاط من كل الأيام المحددة؟')){activities=activities.filter(a=>a.id!==el.dataset.delete);save();}}));
+}
+function renderStats(){const count=activities.length, days=new Set(activities.flatMap(a=>a.days)).size;const hours=activities.reduce((s,a)=>s+(mins(a.end)-mins(a.start))*a.days.length,0);$('totalStat').textContent=count;$('doneStat').textContent=days+' أيام';$('percentStat').textContent=(hours/60).toFixed(hours%60?1:0)+' س';$('weekProgress').style.width=Math.min(100,hours/(7*24*60)*100)+'%';}
+function render(){renderPlanner();renderTasks();renderStats();}
+function initDayChecks(selected=[1,2,3,4,5]){$('repeatDays').innerHTML=DAY_NAMES.map((d,i)=>`<label><input type="checkbox" name="repeatDay" value="${i}" ${selected.includes(i)?'checked':''}>${d}</label>`).join('');}
+function openActivity(id=null,day=1,start='08:00'){
+ editingId=id;const a=id?activities.find(x=>x.id===id):null;
+ $('scheduleModalTitle').textContent=a?'تعديل النشاط':'إضافة نشاط متكرر';
+ $('scheduleName').value=a?.name||'';$('activityCategory').value=a?.category||'study';$('startTime').value=a?.start||start;
+ $('endTime').value=a?.end||(mins(start)<1380?fmt(mins(start)+60):'23:59');$('activityNote').value=a?.note||'';
+ initDayChecks(a?.days||[day]);$('scheduleDialog').showModal();
+}
+$('createScheduleBtn').addEventListener('click',()=>openActivity());
+$('addBtn').addEventListener('click',()=>openActivity());
+$('cancelScheduleBtn').addEventListener('click',()=>$('scheduleDialog').close());
+$('scheduleForm').addEventListener('submit',e=>{
+ e.preventDefault();
+ const name=$('scheduleName').value.trim(),start=$('startTime').value,end=$('endTime').value;
+ const days=[...document.querySelectorAll('input[name="repeatDay"]:checked')].map(x=>Number(x.value));
+ if(!name){alert('اكتب اسم النشاط.');return;}
+ if(!days.length){alert('اختر يومًا واحدًا على الأقل.');return;}
+ if(!start||!end||mins(end)<=mins(start)){alert('وقت النهاية يجب أن يكون بعد وقت البداية وفي اليوم نفسه.');return;}
+ const item={id:editingId||((crypto.randomUUID&&crypto.randomUUID())||String(Date.now())),name,category:$('activityCategory').value,start,end,days,note:$('activityNote').value.trim()};
+ const conflict=activities.find(a=>a.id!==editingId&&overlaps(item,a));
+ if(conflict&&!confirm(`تنبيه: يتداخل الوقت مع «${conflict.name}» في يوم مشترك. هل تريد الحفظ رغم ذلك؟`))return;
+ if(editingId){const i=activities.findIndex(a=>a.id===editingId);if(i>=0)activities[i]=item;}else activities.push(item);
+ $('scheduleDialog').close();save();
+});
+$('todayBtn').addEventListener('click',()=>{const now=new Date();alert('المخطط يعرض الأسبوع كاملًا من السبت إلى الجمعة، والوقت بتنسيق 24 ساعة.');});
+$('themeBtn').addEventListener('click',()=>{document.body.classList.toggle('dark');localStorage.setItem(THEME,document.body.classList.contains('dark')?'dark':'light');$('themeBtn').textContent=document.body.classList.contains('dark')?'☀️':'🌙';});
+if(localStorage.getItem(THEME)==='dark'){document.body.classList.add('dark');$('themeBtn').textContent='☀️';}
+$('exportBtn').addEventListener('click',()=>{const blob=new Blob([JSON.stringify({version:2,activities},null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='injaz-planner-backup.json';a.click();URL.revokeObjectURL(url);});
+$('importBtn').addEventListener('click',()=>{const input=document.createElement('input');input.type='file';input.accept='application/json,.json';input.onchange=async()=>{const f=input.files[0];if(!f)return;try{const d=JSON.parse(await f.text());const arr=Array.isArray(d)?d:d.activities;if(!Array.isArray(arr))throw Error();if(confirm('ستُستبدل الأنشطة الحالية. هل تريد المتابعة؟')){activities=arr.filter(a=>a&&typeof a.name==='string'&&Array.isArray(a.days)&&a.start&&a.end).map(a=>({...a,id:String(a.id||Date.now()+Math.random())}));save();alert('تمت الاستعادة.');}}catch{alert('الملف غير صالح.');}};input.click();});
+$('reminderBtn').addEventListener('click',()=>alert('التذكيرات التلقائية عند وقت محدد تحتاج إلى إضافة نظام إشعارات. هذه النسخة تعرض جدولك وتُبقيه محفوظًا على الجهاز.'));
+load();initDayChecks();render();
+</script>
+</body>
+</html>
